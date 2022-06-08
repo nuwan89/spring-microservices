@@ -71,3 +71,63 @@ eureka.client.service-url.defaultZone=http://localhost:8000/eureka
 ```Java
 @EnableEurekaClient
 ```
+
+### Feign client configuration
+
+**Producer rest endpoint**
+
+```java
+@RestController
+@RequestMapping("/account")
+public class AccountResource {
+
+    @GetMapping("/verify")
+    public int verify(@RequestParam("id") int id){
+        id = id/1000000;
+        if (id % 2 != 0) {
+            id = 0;
+        }
+        return id;
+    }
+}
+```
+
+**Feign client implementation**
+
+```xml
+<!-- pom.xml -->
+---
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+---
+<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+```
+
+```java
+//Application class
+@EnableFeignClients
+```
+
+```java
+@FeignClient("account-manager")
+public interface AccountFeignClient {
+
+    @GetMapping("/account/verify")
+    public int verify(@RequestParam("id") int id);
+}
+
+// Inject above interface in a service class and call verify(100)
+
+```
