@@ -20,6 +20,7 @@ public class AccountResource {
 
     @RequestMapping("/error")
     public String fail() {
+        System.out.println("REQUEST RECEIVED FOR /error ENDPOINT");
         throw new RuntimeException();
 //        return "I WORK LOL";
     }
