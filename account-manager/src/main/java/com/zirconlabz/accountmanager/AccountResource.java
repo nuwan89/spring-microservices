@@ -17,4 +17,10 @@ public class AccountResource {
         }
         return id;
     }
+
+    @RequestMapping("/error")
+    public String fail() {
+        throw new RuntimeException();
+//        return "I WORK LOL";
+    }
 }

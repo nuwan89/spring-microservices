@@ -37,4 +37,9 @@ public class OrdersResource {
         orderEntity.setCreated(new Date());
         return orderService.submitOrder(orderEntity);
     }
+
+    @RequestMapping("/error")
+    public String hystrixFail() {
+        return orderService.failingRemoteCall();
+    }
 }

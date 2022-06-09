@@ -1,5 +1,6 @@
 package com.zirconlabz.ordermanager;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +26,14 @@ public class OrderService {
         int verified = accountClient.verify(nano);
         System.out.println("Verfied Order: "+verified);
         return repository.save(order);
+    }
+
+    @HystrixCommand(fallbackMethod = "failingFallBack")
+    public String failingRemoteCall() {
+        return this.accountClient.remoteError();
+    }
+
+    public String failingFallBack() {
+        return "REMOTE UNAVAILABLE";
     }
 }

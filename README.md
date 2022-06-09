@@ -65,6 +65,7 @@ eureka.client.fetch-registry=false
 spring.application.name=order-manager  
 server.port=8001  
 eureka.client.service-url.defaultZone=http://localhost:8000/eureka
+eureka.instance.hostname=localhost #This should be on the produces application. Otherwise Feign client will use the application url to redirect
 ```
 
 **Enable Eureka in the @SpringBootApplication class**
@@ -130,4 +131,31 @@ public interface AccountFeignClient {
 
 // Inject above interface in a service class and call verify(100)
 
+```
+
+### Histrix - circuit breaker
+
+```xml
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+	<version>2.2.10.RELEASE</version>
+</dependency>
+```
+
+```java
+//Application class
+@EnableHystrix
+```
+
+```java
+//Service class
+	@HystrixCommand(fallbackMethod = "failingFallBack")
+    public String failingRemoteCall() {
+        return this.accountClient.remoteError();
+    }
+
+    public String failingFallBack() {
+        return "REMOTE UNAVAILABLE";
+    }
 ```

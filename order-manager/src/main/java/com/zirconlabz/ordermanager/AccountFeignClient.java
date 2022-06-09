@@ -9,5 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AccountFeignClient {
 
     @GetMapping("/account/verify")
-    public int verify(@RequestParam("id") int id);
+    int verify(@RequestParam("id") int id);
+
+    @RequestMapping("account/error")
+    String remoteError();
 }
