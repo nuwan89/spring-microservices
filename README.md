@@ -159,3 +159,42 @@ public interface AccountFeignClient {
         return "REMOTE UNAVAILABLE";
     }
 ```
+
+### Spring MVC integration
+
+```xml
+<!-- pom.xml -->
+<!-- For auto reloading -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-devtools</artifactId>
+	<scope>runtime</scope>
+	<optional>true</optional>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+**Put html file abc.html in resources/static dir**
+
+```java
+@Controller
+public class AccountWeb {
+
+    @RequestMapping("/abc")
+    public String webPage() {
+        return "abc";
+    }
+
+}
+```
+
+```properties
+#application.properties
+
+#Use below if you are not using a templating engine (Thymeleaf)
+spring.mvc.view.suffix=.html
+```
+
