@@ -1,4 +1,4 @@
-FROM maven:3.8.3-openjdk-16-slim AS build
+FROM localhost:33000/maven:3.8.3-openjdk-16-slim AS build
 ARG srcDir=/project
 RUN mkdir ${srcDir}
 WORKDIR ${srcDir}
@@ -8,7 +8,7 @@ ADD . ${srcDir}
 RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
 RUN ls ${srcDir}/target
 
-FROM adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.2_7-slim
+FROM localhost:33000/adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.2_7-slim
 
 ARG destDir=/app
 RUN mkdir ${destDir}
@@ -20,5 +20,15 @@ WORKDIR ${destDir}
 
 ENTRYPOINT [ "java", "-jar", "eureka-server.jar" ]
 
-# docker build -t eureka-server:0.0.1 . --progress=plain
+# docker tag maven:3.8.3-openjdk-16-slim localhost:33000/maven:3.8.3-openjdk-16-slim
+# docker tag adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.2_7-slim localhost:33000/adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.2_7-slim
+# kind load docker-image localhost:33000/maven:3.8.3-openjdk-16-slim localhost:33000/adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.2_7-slim
+
+# docker build -t localhost:33000/eureka-server:0.0.1 . --progress=plain
+# When using local registry: curl localhost:33000/v2/_catalog
+# docker push localhost:33000/eureka-server:0.0.1
+
+
+# 
+# kind load docker-image localhost:33000/eureka-server:0.0.1
 
