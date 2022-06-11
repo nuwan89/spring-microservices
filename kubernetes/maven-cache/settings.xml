@@ -1,0 +1,11 @@
+<settings>
+  <!-- omitted xml -->
+  <mirrors>
+    <mirror>
+      <id>archiva.default</id>
+      <url>http://localhost:33001/repository/internal/</url>
+      <mirrorOf>external:*</mirrorOf>
+    </mirror>
+  </mirrors>
+  <!-- omitted xml -->
+</settings>

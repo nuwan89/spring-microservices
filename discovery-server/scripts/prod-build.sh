@@ -1,0 +1,1 @@
+./build.sh prod "eureka-server:0.0.1"

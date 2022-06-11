@@ -1,0 +1,1 @@
+./build.sh dev "eureka-server:0.0.1"
