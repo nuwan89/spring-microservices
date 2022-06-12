@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-manager
+  labels:
+    app: account-manager
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-manager
+  template:
+    metadata:
+      labels:
+        app: account-manager
+    spec:
+      containers:
+      - name: account-manager
+        image: localhost:33000/account-manager:0.0.2
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8002
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-manager-svc
+  labels:
+    app: account-manager
+spec:
+  type: NodePort
+  selector:
+    app: account-manager
+  ports:
+    - nodePort: 30002
+      port: 80
+      targetPort: 8002
