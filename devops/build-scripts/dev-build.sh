@@ -11,7 +11,7 @@ pushd $SCRIPT_DIR
 pushd ../
 rm -rf .build
 mkdir .build
-cp ../devops/build-scripts/build.sh ../devops/build-scripts/maven-build.sh .build/
+cp ../devops/build-scripts/*.sh .build/
 # cp -f ../devops/build-scripts/{build,maven-build}.sh .build/
 pushd .build
 
