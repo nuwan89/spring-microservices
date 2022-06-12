@@ -6,7 +6,7 @@ WORKDIR ${srcDir}
 # ADD pom.xml ${srcDir}
 # RUN mvn verify --fail-never
 ADD . ${srcDir}
-RUN --mount=type=cache,target=/root/.m2 scripts/maven-build.sh ${buildMode}
+RUN --mount=type=cache,target=/root/.m2 .build/maven-build.sh ${buildMode}
 RUN ls ${srcDir}/target
 
 FROM localhost:33000/adoptopenjdk/openjdk16:x86_64-alpine-jdk-16.0.2_7-slim
@@ -18,6 +18,8 @@ COPY --from=build /project/target/discovery-server-0.0.1-SNAPSHOT.jar ${destDir}
 EXPOSE 8000
 
 WORKDIR ${destDir}
+
+ENV SPRING_PROFILES_ACTIVE=${buildMode}
 
 ENTRYPOINT [ "java", "-jar", "eureka-server.jar" ]
 
