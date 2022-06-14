@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: account-manager
-        image: localhost:33000/account-manager:0.0.2
+        image: localhost:33000/account-manager:0.0.1
         imagePullPolicy: Always
         ports:
           - containerPort: 8002

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-gateway
+  labels:
+    app: spring-gateway
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-gateway
+  template:
+    metadata:
+      labels:
+        app: spring-gateway
+    spec:
+      containers:
+      - name: spring-gateway
+        image: localhost:33000/spring-gateway:0.0.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-gateway-svc
+  labels:
+    app: spring-gateway
+spec:
+  type: NodePort
+  selector:
+    app: spring-gateway
+  ports:
+    - nodePort: 30003
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-gateway-ing
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  # tls:
+  # - secretName: tls-secret
+  rules:
+  - http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: spring-gateway-svc
+              port:
+                number: 80

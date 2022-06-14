@@ -22,23 +22,24 @@ nodes:
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
-    extraPortMappings:
-    - containerPort: 30000
-      hostPort: 30000
-      protocol: TCP
-    - containerPort: 80
-      hostPort: 80
-      protocol: TCP
-    - containerPort: 443
-      hostPort: 443
-      protocol: TCP
+  extraPortMappings:
+  - containerPort: 30000
+    hostPort: 30000
+    protocol: TCP
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
 - role: worker
 - role: worker
 - role: worker
 
-# kind create cluster --config=nodes.yaml
+# kind create cluster --config=kind-ingress.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 # Disable ipv6 like below in docker in windows
-# docker run -d -p 0.0.0.0:33000:5000 --restart=always --name registry registry:2
+# docker run -d -p 0.0.0.0:33000:5000 --restart=always --name registry -e REGISTRY_STORAGE_DELETE_ENABLED=true registry:2
 # docker network connect "kind" "registry"
 # Add below in docker config in windows settings:
 
