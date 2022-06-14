@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: order-manager
+          uri: http://account-manager-svc
+          predicates:
+          - Path=/acc/**
+          filters:
+          - RewritePath=/acc/(?<segment>.*), /account/$\{segment}

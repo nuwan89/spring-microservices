@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-gateway
+  cloud:
+    gateway:
+      routes:
+#        - id: account-manager
+#          uri: baeldung.com
+        - id: order-manager
+          uri: http://localhost:8000
+#          uri: https://httpbin.org/get
+          predicates:
+          - Path=/eureka
+          filters:
+#          - name: CircuitBreaker
+          - RewritePath=/eureka, /hello
