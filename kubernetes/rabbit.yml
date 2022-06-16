@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      hostname: localhost
+      containers:
+      - name: rabbitmq
+        image: localhost:33000/rabbitmq:3.9.20-management-alpine
+        # imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 5672
+          - containerPort: 15672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-svc
+  labels:
+    app: rabbitmq
+spec:
+  type: NodePort
+  selector:
+    app: rabbitmq
+  ports:
+    - name: rabbit
+      nodePort: 30672
+      port: 80
+      targetPort: 5672
+    - name: rabbit-man
+      nodePort: 30673
+      port: 8080
+      targetPort: 15672
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rabbit-ing-ing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  # tls:
+  # - secretName: tls-secret
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        - path: /rabbit(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: rabbitmq-svc
+              port:
+                number: 8080
+# docker pull rabbitmq:3.9.20-management-alpine
+# docker tag rabbitmq:3.9.20-management-alpine localhost:33000/rabbitmq:3.9.20-management-alpine
+# docker push localhost:33000/rabbitmq:3.9.20-management-alpine

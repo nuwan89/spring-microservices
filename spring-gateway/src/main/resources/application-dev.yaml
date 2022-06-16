@@ -2,6 +2,20 @@ spring:
   cloud:
     gateway:
       routes:
+        # - id: rabbitmq-management
+        #   uri: http://rabbitmq-svc:8080
+        #   predicates:
+        #     - Path=/rabman/**
+        #   filter:
+        #   - RewritePath=/rabman/(?<segment>.*), /$\{segment}
+
+        # - id: rabbitmq
+        #   uri: http://rabbitmq-svc
+        #   predicates:
+        #     - Path=/rab/**
+        #   filter:
+        #     - RewritePath=/rab/(?<segment>.*), /$\{segment}
+
         - id: order-manager
           uri: http://account-manager-svc
           predicates:

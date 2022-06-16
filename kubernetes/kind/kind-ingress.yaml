@@ -26,6 +26,12 @@ nodes:
   - containerPort: 30000
     hostPort: 30000
     protocol: TCP
+  - containerPort: 5672 #Rabbitmq
+    hostPort: 30672
+    protocol: TCP
+  - containerPort: 15672
+    hostPort: 30673
+    protocol: TCP
   - containerPort: 80
     hostPort: 80
     protocol: TCP

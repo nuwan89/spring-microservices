@@ -9,9 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/account")
 public class AccountResource {
 
+    @GetMapping("/test")
+    public String test() {
+        System.out.println("Testing..");
+        return "OK!";
+    }
+
     @GetMapping("/verify")
     public int verify(@RequestParam("id") int id){
-        id = id/1000000;
+        System.out.println("verifying ID: "+id);
+        if(id > 10000) {
+            id = id/1000000;
+        }
         if (id % 2 != 0) {
             id = 0;
         }
