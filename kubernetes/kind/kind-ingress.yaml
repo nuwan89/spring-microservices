@@ -38,6 +38,10 @@ nodes:
   - containerPort: 443
     hostPort: 443
     protocol: TCP
+  extraMounts:
+  - hostPath: /d/Software_Projects/k8s/kind-vols #Make sure this path exists
+    containerPath: /mnt
+    propagation: Bidirectional
 - role: worker
 - role: worker
 - role: worker
