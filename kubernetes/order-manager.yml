@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-manager
+  labels:
+    app: order-manager
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-manager
+  template:
+    metadata:
+      labels:
+        app: order-manager
+    spec:
+      containers:
+      - name: order-manager
+        image: localhost:33000/order-manager:0.0.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8001
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-manager-svc
+  labels:
+    app: order-manager
+spec:
+  type: NodePort
+  selector:
+    app: order-manager
+  ports:
+    - nodePort: 30004
+      port: 80
+      targetPort: 8001

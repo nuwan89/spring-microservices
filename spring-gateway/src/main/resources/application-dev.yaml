@@ -16,9 +16,16 @@ spring:
         #   filter:
         #     - RewritePath=/rab/(?<segment>.*), /$\{segment}
 
-        - id: order-manager
+        - id: account-manager
           uri: http://account-manager-svc
           predicates:
           - Path=/acc/**
           filters:
           - RewritePath=/acc/(?<segment>.*), /account/$\{segment}
+
+        - id: order-manager
+          uri: http://order-manager-svc
+          predicates:
+          - Path=/ord/**
+          filters:
+          - RewritePath=/ord/(?<segment>.*), /$\{segment}
