@@ -5,12 +5,14 @@ metadata:
   labels:
     app: kafka-app
 spec:
-  clusterIP: None
+  type: NodePort
+  # clusterIP: None
   ports:
     - name: '9092'
       port: 9092
       protocol: TCP
       targetPort: 9092
+      nodePort: 30092
   selector:
     app: kafka-app
 ---
@@ -35,8 +37,8 @@ spec:
         - name: kafka-container
           image: localhost:33000/doughgle/kafka-kraft
           ports:
-            - containerPort: 9092
-            - containerPort: 9093
+            - containerPort: 9092 #Consumers/Producers use this
+            - containerPort: 9093 #For inter-broker comms
           env:
             - name: REPLICAS
               value: '3'

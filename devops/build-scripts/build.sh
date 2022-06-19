@@ -25,5 +25,6 @@ pushd .build
 ./remove-images.sh $image_name $tag
 
 pushd ../
+echo "Pushing image: $full_image_name"
 
 docker push ${registry}${full_image_name}
