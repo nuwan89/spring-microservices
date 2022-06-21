@@ -24,6 +24,9 @@ spec:
         ports:
           - containerPort: 5672
           - containerPort: 15672
+        env:
+          - name: RABBITMQ_DEFAULT_VHOST
+            value: thilanka_vhost
 ---
 apiVersion: v1
 kind: Service
