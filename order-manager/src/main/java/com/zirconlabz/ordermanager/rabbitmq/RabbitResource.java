@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/msg")
 public class RabbitResource {
 
-    private Receiver receiver;
     private RabbitTemplate rabbitTemplate;
 
-    public RabbitResource(Receiver receiver, RabbitTemplate rabbitTemplate){
-        this.receiver = receiver;
+    public RabbitResource(RabbitTemplate rabbitTemplate){
         this.rabbitTemplate = rabbitTemplate;
     }
 

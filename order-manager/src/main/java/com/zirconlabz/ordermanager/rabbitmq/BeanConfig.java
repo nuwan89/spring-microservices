@@ -10,6 +10,10 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+    REFER TO cbhoregraphy package for more complete impl
+ */
+
 @Configuration
 public class BeanConfig {
 
